@@ -4,9 +4,9 @@ export default {
     components: {},
     data() {
         return {
-            count: 0,
+            count: '',
             products: [],
-            selectedProducts: [],
+            selectedProducts: [{title: 'safasf', price: '34', count: '2', id: 1},{title: 'safasf', price: '34', count: '2', id: 1}],
             selectedProduct: {},
         }
     },
@@ -15,7 +15,7 @@ export default {
             try {
                 const res = await fetch('https://dev-su.eda1.ru/test_task/products.php')
                 this.products = (await res.json()).products;
-                console.log(this.products)
+                this.selectedProduct = this.products[0];
             } catch (error) {
                 console.log('Error! Could not reach the API. ' + error);
             }
@@ -29,12 +29,10 @@ export default {
                 price: selectedProduct.price,
                 count: count,
             });
-            this.selectedProduct = {};
-            this.count = 0;
-            console.log(this.selectedProducts);
+            this.selectedProduct = this.products[0];
+            this.count = '';
         },
         async sendData() {
-            console.log(this.prepareData)
             try {
                 const response = await fetch('https://dev-su.eda1.ru/test_task/save.php', {
                     method: 'POST',
@@ -88,20 +86,20 @@ export default {
                 <input class="add-form__input" type="number" name="" id="amount-id" v-model="count">
                 <button class="add-form__submit" type="submit">Добавить</button>
             </form>
-            <div class="left-column">
-                <table>
+            <div class="right-column">
+                <table class="order-table">
                     <thead>
                         <tr>
-                            <th>Название товара</th>
-                            <th>Количество</th>
-                            <th>Стоимость</th>
+                            <th class="order-table__th">Название товара</th>
+                            <th class="order-table__th">Количество</th>
+                            <th class="order-table__th">Стоимость</th>
                         </tr>
                     </thead>
                     <tbody v-if="selectedProducts.length">
                         <tr v-for="product in selectedProducts">
-                            <td>{{ product.title }}</td>
-                            <td>{{ product.count }}</td>
-                            <td>{{ product.count * product.price }}</td>
+                            <td class="order-table__td">{{ product.title }}</td>
+                            <td class="order-table__td">{{ product.count }} шт.</td>
+                            <td class="order-table__td">{{ (product.count * product.price).toFixed(2) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -125,7 +123,8 @@ export default {
 }
 
 .add-form {
-    width: 394px;
+    width: 395px;
+    margin-right: 40px;
     display: flex;
     flex-direction: column;
 }
@@ -139,16 +138,21 @@ export default {
 .add-form__select,
 .add-form__input {
     padding: 12px 16px;
-    background: #EEF8FF;
+    background-color: #EEF8FF;
     border: none;
     border-bottom: 1px solid #2FA6EA;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     margin-bottom: 40px;
     color: #0170AE;
 }
 
-.add-form__select::after {
-    /*    кастомная иконка*/
+.add-form__select {
+    appearance: none;
+    overflow: hidden;
+    background-image: url('../assets/arrow-down.svg');
+    background-repeat: no-repeat;
+    background-position: top 20px right 10px;
+    border: 1px solid #000000;
 }
 
 .add-form__submit {
@@ -161,13 +165,17 @@ export default {
     background-color: #2FA6EA;
 }
 
-.left-column {
-    width: 918px;
+.right-column {
+    flex-grow: 2;
+    display: flex;
+    min-height: 750px;
+    flex-direction: column;
+    padding-bottom: 68px;
 }
 
-table {
+.order-table {
     width: 100%;
-    min-height: 450px;
+    margin-bottom: auto;
 }
 
 thead th:nth-child(1) {
@@ -189,29 +197,39 @@ thead th:nth-child(3) {
 }
 
 th, td {
-    padding: 10px;
+    padding: 15px 10px;
     text-align: right;
 }
 
+th {
+    color: #0170AE;
+    font-weight: 300;
+}
+
 .total-price {
+    padding-top: 18px;
     text-align: right;
     border-top: 1px solid #2FA6EA;
+    font-weight: 400;
 }
 
 .save-button {
     display: block;
     margin: 0 auto;
     min-width: 394px;
-    padding: 20px;
+    padding: 13px;
     background-color: #61A91A;
     color: #ffffff;
     border: none;
     border-radius: 4px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 900px) {
     .main-content__container {
         flex-direction: column;
+    }
+    .add-form {
+        margin: 0 auto 50px auto;
     }
 }
 </style>
