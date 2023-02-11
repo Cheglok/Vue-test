@@ -6,7 +6,7 @@ export default {
         return {
             count: '',
             products: [],
-            selectedProducts: [{title: 'safasf', price: '34', count: '2', id: 1},{title: 'safasf', price: '34', count: '2', id: 1}],
+            selectedProducts: [{title: 'Борщевой набор', price: '34', count: '11', id: 1},{title: 'Кости для ухи', price: '34', count: '20', id: 1},{title: 'Вода для щщей', price: '34', count: '1', id: 1}],
             selectedProduct: {},
         }
     },
@@ -123,7 +123,7 @@ export default {
 }
 
 .add-form {
-    width: 395px;
+    width: 394px;
     margin-right: 40px;
     display: flex;
     flex-direction: column;
@@ -137,40 +137,51 @@ export default {
 
 .add-form__select,
 .add-form__input {
-    padding: 12px 16px;
+    display: block;
+    font-size: 24px;
+    line-height: 28px;
+    padding: 11px 16px;
     background-color: #EEF8FF;
-    border: none;
-    border-bottom: 1px solid #2FA6EA;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-    margin-bottom: 40px;
     color: #0170AE;
+    border: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 1px 0 0 #e5e5e5, 0 2px 0 0 #2fa6ea;
 }
 
 .add-form__select {
     appearance: none;
-    overflow: hidden;
     background-image: url('../assets/arrow-down.svg');
     background-repeat: no-repeat;
-    background-position: top 20px right 10px;
+    background-position: top 20px right 18px;
     border: 1px solid #000000;
+    margin-bottom: 40px;
+}
+
+.add-form__input {
+    padding-bottom: 13px;
+    margin-bottom: 48px;
 }
 
 .add-form__submit {
+    font-size: 24px;
+    line-height: 28px;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border: 1px solid #000000;
-    border-radius: 5px;
+    border-radius: 3px;
     color: #ffffff;
     text-align: center;
-    padding: 12px 16px;
+    padding: 11px 16px;
     background-color: #2FA6EA;
+    -webkit-text-stroke: 1px #000000;
 }
 
 .right-column {
     flex-grow: 2;
     display: flex;
-    min-height: 750px;
+    min-height: 698px;
     flex-direction: column;
     padding-bottom: 68px;
+    padding-top: 43px;
+    padding-right: 12px;
 }
 
 .order-table {
@@ -184,20 +195,25 @@ thead th:nth-child(1) {
 }
 
 tbody td:nth-child(1) {
-    width: 60%;
+    width: 61%;
     text-align: left;
 }
 
 thead th:nth-child(2) {
-    width: 20%;
+    width: 21%;
 }
 
 thead th:nth-child(3) {
-    width: 20%;
+    width: 18%;
 }
 
-th, td {
-    padding: 15px 10px;
+th{
+    padding: 16px 10px;
+    text-align: right;
+}
+
+td {
+    padding: 10px;
     text-align: right;
 }
 
@@ -224,12 +240,12 @@ th {
     border-radius: 4px;
 }
 
-@media (max-width: 900px) {
-    .main-content__container {
-        flex-direction: column;
-    }
-    .add-form {
-        margin: 0 auto 50px auto;
-    }
-}
+/*@media (max-width: 900px) {*/
+/*    .main-content__container {*/
+/*        flex-direction: column;*/
+/*    }*/
+/*    .add-form {*/
+/*        margin: 0 auto 50px auto;*/
+/*    }*/
+/*}*/
 </style>
