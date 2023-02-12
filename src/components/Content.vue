@@ -6,7 +6,7 @@ export default {
         return {
             count: '',
             products: [],
-            selectedProducts: [{title: 'Борщевой набор', price: '34', count: '11', id: 1},{title: 'Кости для ухи', price: '34', count: '20', id: 1},{title: 'Вода для щщей', price: '34', count: '1', id: 1}],
+            selectedProducts: [{title: 'Борщевой набор номер три вторая строка', price: '34', count: '11', id: 1},{title: 'Борщевой набор номер три вторая строка', price: '34', count: '20', id: 1},{title: 'Борщевой набор номер три вторая строка', price: '34', count: '1', id: 1}],
             selectedProduct: {},
         }
     },
@@ -119,7 +119,6 @@ export default {
 
 .main-content__container {
     display: flex;
-    justify-content: space-between;
 }
 
 .add-form {
@@ -190,36 +189,33 @@ export default {
     margin-bottom: auto;
 }
 
-thead th:nth-child(1) {
+.order-table th:nth-child(1) {
     width: 64%;
     text-align: left;
 }
 
-tbody td:nth-child(1) {
+.order-table td:nth-child(1) {
     text-align: left;
 }
 
-thead th:nth-child(2) {
+.order-table th:nth-child(2) {
     width: 18%;
 }
 
-thead th:nth-child(3) {
+.order-table th:nth-child(3) {
     width: 18%;
 }
 
-th{
+.order-table__th {
     padding: 16px 10px;
     text-align: right;
-}
-
-td {
-    padding: 10px;
-    text-align: right;
-}
-
-th {
     color: #0170AE;
     font-weight: 300;
+}
+
+.order-table__td {
+    padding: 10px;
+    text-align: right;
 }
 
 .total-price {
@@ -234,20 +230,87 @@ th {
 .save-button {
     display: block;
     margin: 0 auto;
-    min-width: 394px;
+    width: 394px;
     padding: 11px 13px 13px 25px;
     background-color: #61A91A;
     color: #ffffff;
     border: none;
     border-radius: 4px;
+    line-height: 28px;
 }
 
-/*@media (max-width: 900px) {*/
-/*    .main-content__container {*/
-/*        flex-direction: column;*/
-/*    }*/
-/*    .add-form {*/
-/*        margin: 0 auto 50px auto;*/
-/*    }*/
-/*}*/
+@media (max-width: 480px) {
+    .main-content {
+        padding-top: 24px;
+        padding-bottom: 46px;
+    }
+
+    .main-content__container {
+        flex-direction: column;
+        padding-right: 26px;
+    }
+
+    .add-form {
+        margin: 0 0 29px 0;
+        width: 100%;
+    }
+
+    .add-form__select {
+        border: none;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        box-shadow: 0 1px 0 0 #e5e5e5, 0 2px 0 0 #2fa6ea;
+    }
+
+    .add-form__submit {
+        -webkit-text-stroke: initial;
+    }
+
+    .right-column {
+        padding: 0;
+        line-height: 35px;
+        min-height: 0;
+    }
+
+    .order-table {
+        margin-bottom: 12px;
+    }
+
+    .order-table thead {
+        display: none;
+    }
+
+    .order-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 17px;
+    }
+
+    .order-table__td {
+        padding: 5px 0;
+    }
+
+    .order-table__td:nth-child(1) {
+        width: 100%;
+    }
+
+    .order-table__td:nth-child(2) {
+        width: 50%;
+        text-align: left;
+        font-weight: 400;
+    }
+
+    .order-table__td:nth-child(3) {
+        width: 50%;
+        font-weight: 400;
+    }
+
+    .total-price {
+        margin: 0 0 38px;
+    }
+
+    .save-button {
+        width: 100%;
+    }
+}
 </style>

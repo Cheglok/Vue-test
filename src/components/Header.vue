@@ -31,7 +31,19 @@ export default {
     font-size: 24px;
     line-height: 24px;
     font-weight: 400;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     -webkit-text-stroke: 1px #000000;
+}
+
+@media screen and (max-width: 480px) {
+    .main-header {
+        border: none;
+    }
+
+    .main-header__heading {
+        padding-left: 3px;
+        -webkit-text-stroke: initial;
+    }
+
 }
 </style>

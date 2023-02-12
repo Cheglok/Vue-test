@@ -13,17 +13,26 @@ export default {
 
 
 <style scoped>
+.main-footer {
+    min-height: 221px;
+    background-color: #222222;
+    padding: 170px 20px 20px 20px;
+    text-align: right;
+    color: #ffffff;
+}
+
+.main-footer__text {
+    font-weight: 400;
+    margin: 0;
+    padding-right: 45px;
+}
+@media screen and (max-width: 480px) {
     .main-footer {
-        min-height: 221px;
-        background-color: #222222;
-        padding: 170px 20px 20px 20px;
-        text-align: right;
-        color: #ffffff;
+        padding-top: 156px;
     }
 
     .main-footer__text {
-        font-weight: 400;
-        margin: 0;
-        padding-right: 45px;
+        padding-right: 10px;
     }
+}
 </style>
