@@ -124,7 +124,7 @@ export default {
 
 .add-form {
     width: 394px;
-    margin-right: 40px;
+    margin-right: 39px;
     display: flex;
     flex-direction: column;
 }
@@ -164,6 +164,7 @@ export default {
 .add-form__submit {
     font-size: 24px;
     line-height: 28px;
+    font-weight: 400;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border: 1px solid #000000;
     border-radius: 3px;
@@ -190,17 +191,16 @@ export default {
 }
 
 thead th:nth-child(1) {
-    width: 60%;
+    width: 64%;
     text-align: left;
 }
 
 tbody td:nth-child(1) {
-    width: 61%;
     text-align: left;
 }
 
 thead th:nth-child(2) {
-    width: 21%;
+    width: 18%;
 }
 
 thead th:nth-child(3) {
@@ -223,7 +223,9 @@ th {
 }
 
 .total-price {
-    padding-top: 18px;
+    margin: 0 13px 20px;
+
+    padding-top: 19px;
     text-align: right;
     border-top: 1px solid #2FA6EA;
     font-weight: 400;
@@ -233,7 +235,7 @@ th {
     display: block;
     margin: 0 auto;
     min-width: 394px;
-    padding: 13px;
+    padding: 11px 13px 13px 25px;
     background-color: #61A91A;
     color: #ffffff;
     border: none;

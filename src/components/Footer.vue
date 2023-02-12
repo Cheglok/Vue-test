@@ -7,7 +7,7 @@ export default {
 
 <template>
     <footer class="main-footer">
-        Very interesting tail
+        <p class="main-footer__text">Very intresting tail</p>
     </footer>
 </template>
 
@@ -19,5 +19,11 @@ export default {
         padding: 170px 20px 20px 20px;
         text-align: right;
         color: #ffffff;
+    }
+
+    .main-footer__text {
+        font-weight: 400;
+        margin: 0;
+        padding-right: 45px;
     }
 </style>
