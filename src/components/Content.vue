@@ -131,7 +131,6 @@ export default {
 .add-form__label {
     display: block;
     margin-bottom: 21px;
-    width: 100%;
 }
 
 .add-form__select,
@@ -252,7 +251,7 @@ export default {
 
     .add-form {
         margin: 0 0 29px 0;
-        width: 100%;
+        width: auto;
     }
 
     .add-form__select {
@@ -267,9 +266,9 @@ export default {
     }
 
     .right-column {
-        padding: 0;
         line-height: 35px;
         min-height: 0;
+        padding: 0;
     }
 
     .order-table {
@@ -310,7 +309,8 @@ export default {
     }
 
     .save-button {
-        width: 100%;
+        width: auto;
+        margin: 0;
     }
 }
 </style>
