@@ -16,12 +16,13 @@ export default {
 
 <style scoped>
 .main-footer {
-    background-color: #222222;
+    padding-top: 146px;
+    padding-bottom: 23px;
+
     text-align: right;
     color: #ffffff;
-    padding-bottom: 23px;
-    padding-top: 146px;
 
+    background-color: #222222;
 }
 
 .main-footer__text {

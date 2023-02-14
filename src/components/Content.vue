@@ -6,7 +6,7 @@ export default {
         return {
             count: '',
             products: [],
-            selectedProducts: [{title: 'Борщевой набор номер три вторая строка', price: '34', count: '11', id: 1},{title: 'Борщевой набор номер три вторая строка', price: '34', count: '20', id: 1},{title: 'Борщевой набор номер три вторая строка', price: '34', count: '1', id: 1}],
+            selectedProducts: [],
             selectedProduct: {},
         }
     },
@@ -84,7 +84,7 @@ export default {
                 </select>
                 <label class="add-form__label" for="amount-id">Введите количество</label>
                 <input class="add-form__input" type="number" name="" id="amount-id" v-model="count">
-                <button class="add-form__submit" type="submit">Добавить</button>
+                <button class="add-form__submit" type="submit" :disabled="!count">Добавить</button>
             </form>
             <div class="right-column">
                 <table class="order-table">
@@ -104,17 +104,25 @@ export default {
                     </tbody>
                 </table>
                 <p class="total-price">Итого: {{ totalPrice }}</p>
-                <button class="save-button" @click="sendData">Сохранить</button>
+                <button class="save-button" @click="sendData" :disabled="!selectedProducts.length">Сохранить</button>
             </div>
         </div>
     </main>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+$main-background-color: #e5e5e5;
+$title-text-color: #0170ae;
+$decorative-color: #2fa6ea;
+$input-background-color: #eef8ff;
+$submit-button-color: #61a91a;
+
 .main-content {
     flex-grow: 1;
-    background: #E5E5E5;
+
     padding-top: 45px;
+
+    background: $main-background-color;
 }
 
 .main-content__container {
@@ -122,10 +130,11 @@ export default {
 }
 
 .add-form {
-    width: 394px;
-    margin-right: 39px;
     display: flex;
     flex-direction: column;
+
+    width: 394px;
+    margin-right: 39px;
 }
 
 .add-form__label {
@@ -136,79 +145,90 @@ export default {
 .add-form__select,
 .add-form__input {
     display: block;
+
+    padding: 11px 16px;
+
     font-size: 24px;
     line-height: 28px;
-    padding: 11px 16px;
-    background-color: #EEF8FF;
-    color: #0170AE;
+    color: $title-text-color;
+
+    background-color: $input-background-color;
     border: none;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 1px 0 0 #e5e5e5, 0 2px 0 0 #2fa6ea;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 1px 0 0 $main-background-color, 0 2px 0 0 $decorative-color;
+    cursor: pointer;
 }
 
 .add-form__select {
+    margin-bottom: 40px;
+
     appearance: none;
     background-image: url('../assets/arrow-down.svg');
     background-repeat: no-repeat;
     background-position: top 20px right 18px;
     border: 1px solid #000000;
-    margin-bottom: 40px;
 }
 
 .add-form__input {
-    padding-bottom: 13px;
     margin-bottom: 48px;
+    padding-bottom: 13px;
 }
 
 .add-form__submit {
+    padding: 11px 16px;
+
     font-size: 24px;
     line-height: 28px;
     font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     border: 1px solid #000000;
     border-radius: 3px;
-    color: #ffffff;
-    text-align: center;
-    padding: 11px 16px;
-    background-color: #2FA6EA;
+    background-color: $decorative-color;
     -webkit-text-stroke: 1px #000000;
+
+    &:disabled {
+        opacity: 0.5;
+    }
 }
 
 .right-column {
-    flex-grow: 2;
     display: flex;
-    min-height: 698px;
     flex-direction: column;
-    padding-bottom: 68px;
-    padding-top: 43px;
-    padding-right: 12px;
+    flex-grow: 2;
+
+    min-height: 698px;
+    padding: 43px 12px 68px 0;
 }
 
 .order-table {
     width: 100%;
     margin-bottom: auto;
-}
 
-.order-table th:nth-child(1) {
-    width: 64%;
-    text-align: left;
-}
+    & th:nth-child(1) {
+        width: 64%;
 
-.order-table td:nth-child(1) {
-    text-align: left;
-}
+        text-align: left;
+    }
 
-.order-table th:nth-child(2) {
-    width: 18%;
-}
+    & td:nth-child(1) {
+        text-align: left;
+    }
 
-.order-table th:nth-child(3) {
-    width: 18%;
+    & th:nth-child(2) {
+        width: 18%;
+    }
+
+    & th:nth-child(3) {
+        width: 18%;
+    }
 }
 
 .order-table__th {
     padding: 16px 10px;
     text-align: right;
-    color: #0170AE;
+    color: $title-text-color;
     font-weight: 300;
 }
 
@@ -219,26 +239,34 @@ export default {
 
 .total-price {
     margin: 0 13px 20px;
-
     padding-top: 19px;
-    text-align: right;
-    border-top: 1px solid #2FA6EA;
+
     font-weight: 400;
+    text-align: right;
+
+    border-top: 1px solid $decorative-color;
 }
 
 .save-button {
     display: block;
-    margin: 0 auto;
+
     width: 394px;
+    margin: 0 auto;
     padding: 11px 13px 13px 25px;
-    background-color: #61A91A;
+
+    line-height: 28px;
     color: #ffffff;
+
+    background-color: $submit-button-color;
     border: none;
     border-radius: 4px;
-    line-height: 28px;
+
+    &:disabled {
+        opacity: 0.5;
+    }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 900px) {
     .main-content {
         padding-top: 24px;
         padding-bottom: 46px;
@@ -246,19 +274,22 @@ export default {
 
     .main-content__container {
         flex-direction: column;
+
         padding-right: 26px;
+        max-width: 500px;
     }
 
     .add-form {
-        margin: 0 0 29px 0;
         width: auto;
+        margin: 0 0 29px 0;
     }
 
     .add-form__select {
-        border: none;
         padding-top: 12px;
         padding-bottom: 12px;
-        box-shadow: 0 1px 0 0 #e5e5e5, 0 2px 0 0 #2fa6ea;
+
+        box-shadow: 0 1px 0 0 $main-background-color, 0 2px 0 0 $decorative-color;
+        border: none;
     }
 
     .add-form__submit {
@@ -266,42 +297,46 @@ export default {
     }
 
     .right-column {
-        line-height: 35px;
         min-height: 0;
         padding: 0;
+
+        line-height: 35px;
     }
 
     .order-table {
         margin-bottom: 12px;
-    }
 
-    .order-table thead {
-        display: none;
-    }
+        & thead {
+            display: none;
+        }
 
-    .order-table tr {
-        display: flex;
-        flex-wrap: wrap;
-        margin-bottom: 17px;
+        & tr {
+            display: flex;
+            flex-wrap: wrap;
+
+            margin-bottom: 17px;
+        }
     }
 
     .order-table__td {
         padding: 5px 0;
-    }
 
-    .order-table__td:nth-child(1) {
-        width: 100%;
-    }
+        &:nth-child(1) {
+            width: 100%;
+        }
 
-    .order-table__td:nth-child(2) {
-        width: 50%;
-        text-align: left;
-        font-weight: 400;
-    }
+        &:nth-child(2) {
+            width: 50%;
 
-    .order-table__td:nth-child(3) {
-        width: 50%;
-        font-weight: 400;
+            font-weight: 400;
+            text-align: left;
+        }
+
+        &:nth-child(3) {
+            width: 50%;
+
+            font-weight: 400;
+        }
     }
 
     .total-price {
