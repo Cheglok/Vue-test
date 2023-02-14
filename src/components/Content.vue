@@ -156,6 +156,11 @@ $submit-button-color: #61a91a;
     border: none;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 1px 0 0 $main-background-color, 0 2px 0 0 $decorative-color;
     cursor: pointer;
+
+    &:hover,
+    &:focus {
+        outline: 1px solid #000000;
+    }
 }
 
 .add-form__select {
@@ -190,6 +195,16 @@ $submit-button-color: #61a91a;
 
     &:disabled {
         opacity: 0.5;
+    }
+
+    &:hover,
+    &:focus {
+        outline: 1px solid #000000;
+    }
+
+    &:active{
+        background-color: #ffffff;
+        color: $decorative-color;
     }
 }
 
@@ -263,6 +278,16 @@ $submit-button-color: #61a91a;
 
     &:disabled {
         opacity: 0.5;
+    }
+
+    &:hover,
+    &:focus {
+        outline: 1px solid #000000;
+    }
+
+    &:active{
+        background-color: #ffffff;
+        color: $submit-button-color;
     }
 }
 
