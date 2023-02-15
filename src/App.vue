@@ -1,21 +1,21 @@
 <script>
-import MainContent from "./components/Content.vue";
-import Header from './components/Header.vue';
-import Footer from './components/Footer.vue';
+import TheContent from "./components/TheContent.vue";
+import TheHeader from './components/TheHeader.vue';
+import TheFooter from './components/TheFooter.vue';
 export default {
     components: {
-        MainContent,
-        Header,
-        Footer
+        TheContent,
+        TheHeader,
+        TheFooter
     }
 }
 </script>
 
 <template>
     <div class="root-container">
-        <Header/>
-        <MainContent/>
-        <Footer/>
+        <TheHeader/>
+        <TheContent/>
+        <TheFooter/>
     </div>
 </template>
 

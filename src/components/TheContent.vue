@@ -1,13 +1,15 @@
 <script>
+import ModalMessage from "./ModalMessage.vue";
 export default {
-    name: "Content",
-    components: {},
+    name: "TheContent",
+    components: {ModalMessage},
     data() {
         return {
             count: '',
             products: [],
             selectedProducts: [],
             selectedProduct: {},
+            message: 'all is well',
         }
     },
     methods: {
@@ -80,7 +82,7 @@ export default {
             <form class="add-form" @submit.prevent="addProduct">
                 <label class="add-form__label" for="select-id">Выберите продукцию</label>
                 <select class="add-form__select" name="" id="select-id" v-model="selectedProduct">
-                    <option v-for="product in products" :value="product">{{ product.title }}</option>
+                    <option v-for="product in products" :value="product" :key="product.id">{{ product.title }}</option>
                 </select>
                 <label class="add-form__label" for="amount-id">Введите количество</label>
                 <input class="add-form__input" type="number" name="" id="amount-id" v-model="count">
@@ -108,6 +110,7 @@ export default {
             </div>
         </div>
     </main>
+    <ModalMessage :message="message"/>
 </template>
 
 <style lang="scss" scoped>
@@ -213,7 +216,7 @@ $submit-button-color: #61a91a;
     flex-direction: column;
     flex-grow: 2;
 
-    min-height: 698px;
+    min-height: 409px;
     padding: 43px 12px 68px 0;
 }
 
