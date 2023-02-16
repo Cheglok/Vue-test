@@ -9,7 +9,7 @@ export default {
             products: [],
             selectedProducts: [],
             selectedProduct: {},
-            message: 'all is well',
+            message: '24',
         }
     },
     methods: {
@@ -45,7 +45,7 @@ export default {
                 });
                 let result = (await response.json());
                 if (result.success) {
-                    alert('Заказ принят, код' + result.code);
+                    this.message = 'Заказ принят, код ' + result.code;
                     this.selectedProducts = [];
                 } else {
                     alert('Что-то не так, обратитесь в поддержку');
@@ -54,6 +54,9 @@ export default {
                 console.log('Error! Could not reach the API. ' + error);
             }
         },
+        closeModal() {
+            this.message = '';
+        }
     },
     computed: {
         totalPrice() {
@@ -85,7 +88,7 @@ export default {
                     <option v-for="product in products" :value="product" :key="product.id">{{ product.title }}</option>
                 </select>
                 <label class="add-form__label" for="amount-id">Введите количество</label>
-                <input class="add-form__input" type="number" name="" id="amount-id" v-model="count">
+                <input class="add-form__input" type="number" name="" id="amount-id" v-model="count" min="1" max="100">
                 <button class="add-form__submit" type="submit" :disabled="!count">Добавить</button>
             </form>
             <div class="right-column">
@@ -110,7 +113,7 @@ export default {
             </div>
         </div>
     </main>
-    <ModalMessage :message="message"/>
+    <ModalMessage :message="message" v-show="message" @close-modal="closeModal"/>
 </template>
 
 <style lang="scss" scoped>
