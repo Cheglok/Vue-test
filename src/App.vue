@@ -1,3 +1,11 @@
+<template>
+  <div class="root-container">
+    <TheHeader/>
+    <TheContent/>
+    <TheFooter/>
+  </div>
+</template>
+
 <script>
 import TheContent from "./components/TheContent.vue";
 import TheHeader from './components/TheHeader.vue';
@@ -10,14 +18,6 @@ export default {
     }
 }
 </script>
-
-<template>
-    <div class="root-container">
-        <TheHeader/>
-        <TheContent/>
-        <TheFooter/>
-    </div>
-</template>
 
 <style scoped>
 .root-container {

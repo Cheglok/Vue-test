@@ -1,18 +1,16 @@
+<template>
+  <footer class="main-footer">
+    <div class="container">
+      <p class="main-footer__text">Very intresting tail</p>
+    </div>
+  </footer>
+</template>
+
 <script>
 export default {
     name: "TheFooter"
 }
 </script>
-
-
-<template>
-    <footer class="main-footer">
-        <div class="container">
-        <p class="main-footer__text">Very intresting tail</p>
-        </div>
-    </footer>
-</template>
-
 
 <style scoped>
 .main-footer {

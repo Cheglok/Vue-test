@@ -1,18 +1,18 @@
+<template>
+  <section class="modal-message" @click="$emit('closeModal')">
+    <div class="modal-message__body" @click.stop.prevent="">
+      <p class="modal-message__text">{{ message }}</p>
+      <button class="modal-message__button-close" @click="$emit('closeModal')">Спасибо</button>
+    </div>
+  </section>
+</template>
+
 <script>
 export default {
-    name: "ModalMessage",
-    props: {'message': String}
+name: "ModalMessage",
+props: {'message': String}
 }
 </script>
-
-<template>
-    <section class="modal-message" @click="$emit('closeModal')">
-        <div class="modal-message__body" @click.stop.prevent="">
-            <p class="modal-message__text">{{ message }}</p>
-            <button class="modal-message__button-close" @click="$emit('closeModal')">Спасибо</button>
-        </div>
-    </section>
-</template>
 
 <style scoped>
 

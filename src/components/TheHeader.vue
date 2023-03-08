@@ -1,3 +1,11 @@
+<template>
+  <header class="main-header">
+    <div class="container">
+      <h1 class="main-header__heading">sf</h1>
+    </div>
+  </header>
+</template>
+
 <script>
 
 export default {
@@ -5,15 +13,6 @@ export default {
 }
 
 </script>
-
-<template>
-    <header class="main-header">
-        <div class="container">
-            <h1 class="main-header__heading">sf</h1>
-        </div>
-    </header>
-</template>
-
 
 <style lang="scss" scoped>
 

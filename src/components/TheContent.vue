@@ -1,3 +1,40 @@
+<template>
+  <main class="main-content">
+    <div class="container main-content__container">
+      <form class="add-form" @submit.prevent="addProduct">
+        <label class="add-form__label" for="select-id">Выберите продукцию</label>
+        <select class="add-form__select" name="" id="select-id" v-model="selectedProduct">
+          <option v-for="product in products" :value="product" :key="product.id">{{ product.title }}</option>
+        </select>
+        <label class="add-form__label" for="amount-id">Введите количество</label>
+        <input class="add-form__input" type="number" name="" id="amount-id" v-model="count" min="1" max="100">
+        <button class="add-form__submit" type="submit" :disabled="!count">Добавить</button>
+      </form>
+      <div class="right-column">
+        <table class="order-table">
+          <thead>
+          <tr>
+            <th class="order-table__th">Название товара</th>
+            <th class="order-table__th">Количество</th>
+            <th class="order-table__th">Стоимость</th>
+          </tr>
+          </thead>
+          <tbody v-if="selectedProducts.length">
+          <tr v-for="product in selectedProducts">
+            <td class="order-table__td">{{ product.title }}</td>
+            <td class="order-table__td">{{ product.count }} шт.</td>
+            <td class="order-table__td">{{ (product.count * product.price).toFixed(2) }}</td>
+          </tr>
+          </tbody>
+        </table>
+        <p class="total-price">Итого: {{ totalPrice }}</p>
+        <button class="save-button" @click="sendData" :disabled="!selectedProducts.length">Сохранить</button>
+      </div>
+    </div>
+  </main>
+  <ModalMessage :message="message" v-show="message" @close-modal="closeModal"/>
+</template>
+
 <script>
 import ModalMessage from "./ModalMessage.vue";
 export default {
@@ -78,43 +115,6 @@ export default {
     }
 }
 </script>
-
-<template>
-    <main class="main-content">
-        <div class="container main-content__container">
-            <form class="add-form" @submit.prevent="addProduct">
-                <label class="add-form__label" for="select-id">Выберите продукцию</label>
-                <select class="add-form__select" name="" id="select-id" v-model="selectedProduct">
-                    <option v-for="product in products" :value="product" :key="product.id">{{ product.title }}</option>
-                </select>
-                <label class="add-form__label" for="amount-id">Введите количество</label>
-                <input class="add-form__input" type="number" name="" id="amount-id" v-model="count" min="1" max="100">
-                <button class="add-form__submit" type="submit" :disabled="!count">Добавить</button>
-            </form>
-            <div class="right-column">
-                <table class="order-table">
-                    <thead>
-                        <tr>
-                            <th class="order-table__th">Название товара</th>
-                            <th class="order-table__th">Количество</th>
-                            <th class="order-table__th">Стоимость</th>
-                        </tr>
-                    </thead>
-                    <tbody v-if="selectedProducts.length">
-                        <tr v-for="product in selectedProducts">
-                            <td class="order-table__td">{{ product.title }}</td>
-                            <td class="order-table__td">{{ product.count }} шт.</td>
-                            <td class="order-table__td">{{ (product.count * product.price).toFixed(2) }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p class="total-price">Итого: {{ totalPrice }}</p>
-                <button class="save-button" @click="sendData" :disabled="!selectedProducts.length">Сохранить</button>
-            </div>
-        </div>
-    </main>
-    <ModalMessage :message="message" v-show="message" @close-modal="closeModal"/>
-</template>
 
 <style lang="scss" scoped>
 $main-background-color: #e5e5e5;
