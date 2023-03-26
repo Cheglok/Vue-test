@@ -7,8 +7,8 @@
           <option v-for="product in products" :value="product" :key="product.id">{{ product.title }}</option>
         </select>
         <label class="add-form__label" for="amount-id">Введите количество</label>
-        <input class="add-form__input" type="number" name="" id="amount-id" v-model="count" min="1" max="100">
-        <button class="add-form__submit" type="submit" :disabled="!count">Добавить</button>
+        <input class="add-form__input" type="number" name="" id="amount-id" v-model="selectedCount" min="1" max="100">
+        <button class="add-form__submit" type="submit" :disabled="!selectedCount">Добавить</button>
       </form>
       <div class="right-column">
         <table class="order-table">
@@ -28,7 +28,7 @@
           </tbody>
         </table>
         <p class="total-price">Итого: {{ totalPrice }}</p>
-        <button class="save-button" @click="sendData" :disabled="!selectedProducts.length">Сохранить</button>
+        <button class="save-button" @click="sendSelectedProducts" :disabled="!selectedProducts.length">Сохранить</button>
       </div>
     </div>
   </main>
@@ -37,82 +37,58 @@
 
 <script>
 import ModalMessage from "./ModalMessage.vue";
+import {mapActions, mapGetters} from "vuex";
+
 export default {
-    name: "TheContent",
-    components: {ModalMessage},
-    data() {
-        return {
-            count: '',
-            products: [],
-            selectedProducts: [],
-            selectedProduct: {},
-            message: '24',
-        }
-    },
-    methods: {
-        async getProducts() {
-            try {
-                const res = await fetch('https://dev-su.eda1.ru/test_task/products.php')
-                this.products = (await res.json()).products;
-                this.selectedProduct = this.products[0];
-            } catch (error) {
-                console.log('Error! Could not reach the API. ' + error);
-            }
-        },
-        addProduct() {
-            let selectedProduct = this.selectedProduct;
-            let count = this.count;
-            this.selectedProducts.push({
-                id: selectedProduct.id,
-                title: selectedProduct.title,
-                price: selectedProduct.price,
-                count: count,
-            });
-            this.selectedProduct = this.products[0];
-            this.count = '';
-        },
-        async sendData() {
-            try {
-                const response = await fetch('https://dev-su.eda1.ru/test_task/save.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.prepareData)
-                });
-                let result = (await response.json());
-                if (result.success) {
-                    this.message = 'Заказ принят, код ' + result.code;
-                    this.selectedProducts = [];
-                } else {
-                    alert('Что-то не так, обратитесь в поддержку');
-                }
-            } catch (error) {
-                console.log('Error! Could not reach the API. ' + error);
-            }
-        },
-        closeModal() {
-            this.message = '';
-        }
-    },
-    computed: {
-        totalPrice() {
-            return this.selectedProducts.reduce(
-                (accumulator, item) => accumulator + item.price * item.count, 0
-            )
-        },
-        prepareData() {
-            return this.selectedProducts.map(item => {
-                return {
-                    product_id: item.id,
-                    quantity: item.count
-                }
-            })
-        }
-    },
-    mounted() {
-        this.getProducts();
+  name: "TheContent",
+  components: { ModalMessage },
+  data() {
+    return {
+      selectedCount: '',
+      selectedProduct: {},
+      message: '',
     }
+  },
+  methods: {
+    ...mapActions([
+      "fetchProducts",
+      "addSelectedProducts",
+      "sendSelectedProducts",
+      "clearSelectedProducts"
+    ]),
+    addProduct() {
+      this.$store.dispatch("addSelectedProducts", {
+        selectedProduct: this.selectedProduct,
+        count: this.selectedCount,
+      })
+      this.selectedProduct = this.products[0];
+      this.selectedCount = '';
+    },
+    async sendSelectedProducts() {
+      const result = await this.$store.dispatch("sendSelectedProducts");
+      if (result.success) {
+        this.message = 'Заказ принят, код ' + result.code;
+        await this.$store.dispatch("clearSelectedProducts");
+      } else {
+        alert('Что-то не так, обратитесь в поддержку');
+      }
+    },
+    closeModal() {
+      this.message = '';
+    }
+  },
+  computed: {
+    ...mapGetters({
+      products: "getProducts",
+      selectedProducts: "getSelectedProducts",
+      selectedProductsPreparedData: "getSelectedProductsPreparedData",
+      totalPrice: "getTotalSelectedPrice",
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch("fetchProducts");
+    this.selectedProduct = this.products[0];
+  }
 }
 </script>
 
@@ -124,259 +100,261 @@ $input-background-color: #eef8ff;
 $submit-button-color: #61a91a;
 
 .main-content {
-    flex-grow: 1;
+  position: relative;
+  flex-grow: 1;
+  height: 2000px;
 
-    padding-top: 45px;
+  padding-top: 45px;
 
-    background: $main-background-color;
+  background: $main-background-color;
 }
 
 .main-content__container {
-    display: flex;
+  display: flex;
 }
 
 .add-form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    width: 394px;
-    margin-right: 39px;
+  width: 394px;
+  margin-right: 39px;
 }
 
 .add-form__label {
-    display: block;
-    margin-bottom: 21px;
+  display: block;
+  margin-bottom: 21px;
 }
 
 .add-form__select,
 .add-form__input {
-    display: block;
+  display: block;
 
-    padding: 11px 16px;
+  padding: 11px 16px;
 
-    font-size: 24px;
-    line-height: 28px;
-    color: $title-text-color;
+  font-size: 24px;
+  line-height: 28px;
+  color: $title-text-color;
 
-    background-color: $input-background-color;
-    border: none;
-    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 1px 0 0 $main-background-color, 0 2px 0 0 $decorative-color;
-    cursor: pointer;
+  background-color: $input-background-color;
+  border: none;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 1px 0 0 $main-background-color, 0 2px 0 0 $decorative-color;
+  cursor: pointer;
 
-    &:hover,
-    &:focus {
-        outline: 1px solid #000000;
-    }
+  &:hover,
+  &:focus {
+    outline: 1px solid #000000;
+  }
 }
 
 .add-form__select {
-    margin-bottom: 40px;
+  margin-bottom: 40px;
 
-    appearance: none;
-    background-image: url('../assets/arrow-down.svg');
-    background-repeat: no-repeat;
-    background-position: top 20px right 18px;
-    border: 1px solid #000000;
+  appearance: none;
+  background-image: url('../assets/arrow-down.svg');
+  background-repeat: no-repeat;
+  background-position: top 20px right 18px;
+  border: 1px solid #000000;
 }
 
 .add-form__input {
-    margin-bottom: 48px;
-    padding-bottom: 13px;
+  margin-bottom: 48px;
+  padding-bottom: 13px;
 }
 
 .add-form__submit {
-    padding: 11px 16px;
+  padding: 11px 16px;
 
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 400;
-    color: #ffffff;
-    text-align: center;
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
 
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-    border: 1px solid #000000;
-    border-radius: 3px;
-    background-color: $decorative-color;
-    -webkit-text-stroke: 1px #000000;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border: 1px solid #000000;
+  border-radius: 3px;
+  background-color: $decorative-color;
+  -webkit-text-stroke: 1px #000000;
 
-    &:disabled {
-        opacity: 0.5;
-    }
+  &:disabled {
+    opacity: 0.5;
+  }
 
-    &:hover,
-    &:focus {
-        outline: 1px solid #000000;
-    }
+  &:hover,
+  &:focus {
+    outline: 1px solid #000000;
+  }
 
-    &:active{
-        background-color: #ffffff;
-        color: $decorative-color;
-    }
+  &:active {
+    background-color: #ffffff;
+    color: $decorative-color;
+  }
 }
 
 .right-column {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 2;
 
-    min-height: 409px;
-    padding: 43px 12px 68px 0;
+  min-height: 409px;
+  padding: 43px 12px 68px 0;
 }
 
 .order-table {
-    width: 100%;
-    margin-bottom: auto;
+  width: 100%;
+  margin-bottom: auto;
 
-    & th:nth-child(1) {
-        width: 64%;
+  & th:nth-child(1) {
+    width: 64%;
 
-        text-align: left;
-    }
+    text-align: left;
+  }
 
-    & td:nth-child(1) {
-        text-align: left;
-    }
+  & td:nth-child(1) {
+    text-align: left;
+  }
 
-    & th:nth-child(2) {
-        width: 18%;
-    }
+  & th:nth-child(2) {
+    width: 18%;
+  }
 
-    & th:nth-child(3) {
-        width: 18%;
-    }
+  & th:nth-child(3) {
+    width: 18%;
+  }
 }
 
 .order-table__th {
-    padding: 16px 10px;
-    text-align: right;
-    color: $title-text-color;
-    font-weight: 300;
+  padding: 16px 10px;
+  text-align: right;
+  color: $title-text-color;
+  font-weight: 300;
 }
 
 .order-table__td {
-    padding: 10px;
-    text-align: right;
+  padding: 10px;
+  text-align: right;
 }
 
 .total-price {
-    margin: 0 13px 20px;
-    padding-top: 19px;
+  margin: 0 13px 20px;
+  padding-top: 19px;
 
-    font-weight: 400;
-    text-align: right;
+  font-weight: 400;
+  text-align: right;
 
-    border-top: 1px solid $decorative-color;
+  border-top: 1px solid $decorative-color;
 }
 
 .save-button {
-    display: block;
+  display: block;
 
-    width: 394px;
-    margin: 0 auto;
-    padding: 11px 13px 13px 25px;
+  width: 394px;
+  margin: 0 auto;
+  padding: 11px 13px 13px 25px;
 
-    line-height: 28px;
-    color: #ffffff;
+  line-height: 28px;
+  color: #ffffff;
 
-    background-color: $submit-button-color;
-    border: none;
-    border-radius: 4px;
+  background-color: $submit-button-color;
+  border: none;
+  border-radius: 4px;
 
-    &:disabled {
-        opacity: 0.5;
-    }
+  &:disabled {
+    opacity: 0.5;
+  }
 
-    &:hover,
-    &:focus {
-        outline: 1px solid #000000;
-    }
+  &:hover,
+  &:focus {
+    outline: 1px solid #000000;
+  }
 
-    &:active{
-        background-color: #ffffff;
-        color: $submit-button-color;
-    }
+  &:active {
+    background-color: #ffffff;
+    color: $submit-button-color;
+  }
 }
 
 @media (max-width: 900px) {
-    .main-content {
-        padding-top: 24px;
-        padding-bottom: 46px;
+  .main-content {
+    padding-top: 24px;
+    padding-bottom: 46px;
+  }
+
+  .main-content__container {
+    flex-direction: column;
+
+    padding-right: 26px;
+    max-width: 500px;
+  }
+
+  .add-form {
+    width: auto;
+    margin: 0 0 29px 0;
+  }
+
+  .add-form__select {
+    padding-top: 12px;
+    padding-bottom: 12px;
+
+    box-shadow: 0 1px 0 0 $main-background-color, 0 2px 0 0 $decorative-color;
+    border: none;
+  }
+
+  .add-form__submit {
+    -webkit-text-stroke: initial;
+  }
+
+  .right-column {
+    min-height: 0;
+    padding: 0;
+
+    line-height: 35px;
+  }
+
+  .order-table {
+    margin-bottom: 12px;
+
+    & thead {
+      display: none;
     }
 
-    .main-content__container {
-        flex-direction: column;
+    & tr {
+      display: flex;
+      flex-wrap: wrap;
 
-        padding-right: 26px;
-        max-width: 500px;
+      margin-bottom: 17px;
+    }
+  }
+
+  .order-table__td {
+    padding: 5px 0;
+
+    &:nth-child(1) {
+      width: 100%;
     }
 
-    .add-form {
-        width: auto;
-        margin: 0 0 29px 0;
+    &:nth-child(2) {
+      width: 50%;
+
+      font-weight: 400;
+      text-align: left;
     }
 
-    .add-form__select {
-        padding-top: 12px;
-        padding-bottom: 12px;
+    &:nth-child(3) {
+      width: 50%;
 
-        box-shadow: 0 1px 0 0 $main-background-color, 0 2px 0 0 $decorative-color;
-        border: none;
+      font-weight: 400;
     }
+  }
 
-    .add-form__submit {
-        -webkit-text-stroke: initial;
-    }
+  .total-price {
+    margin: 0 0 38px;
+  }
 
-    .right-column {
-        min-height: 0;
-        padding: 0;
-
-        line-height: 35px;
-    }
-
-    .order-table {
-        margin-bottom: 12px;
-
-        & thead {
-            display: none;
-        }
-
-        & tr {
-            display: flex;
-            flex-wrap: wrap;
-
-            margin-bottom: 17px;
-        }
-    }
-
-    .order-table__td {
-        padding: 5px 0;
-
-        &:nth-child(1) {
-            width: 100%;
-        }
-
-        &:nth-child(2) {
-            width: 50%;
-
-            font-weight: 400;
-            text-align: left;
-        }
-
-        &:nth-child(3) {
-            width: 50%;
-
-            font-weight: 400;
-        }
-    }
-
-    .total-price {
-        margin: 0 0 38px;
-    }
-
-    .save-button {
-        width: auto;
-        margin: 0;
-    }
+  .save-button {
+    width: auto;
+    margin: 0;
+  }
 }
 </style>

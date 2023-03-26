@@ -2,6 +2,7 @@
   <div class="root-container">
     <TheHeader/>
     <TheContent/>
+    <Posts/>
     <TheFooter/>
   </div>
 </template>
@@ -10,19 +11,22 @@
 import TheContent from "./components/TheContent.vue";
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
+import Posts from "./components/Posts.vue";
+
 export default {
-    components: {
-        TheContent,
-        TheHeader,
-        TheFooter
-    }
+  components: {
+    Posts,
+    TheContent,
+    TheHeader,
+    TheFooter
+  }
 }
 </script>
 
 <style scoped>
 .root-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 </style>
