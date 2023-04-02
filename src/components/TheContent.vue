@@ -31,17 +31,19 @@
         <button class="save-button" @click="sendSelectedProducts" :disabled="!selectedProducts.length">Сохранить</button>
       </div>
     </div>
+    <Posts/>
   </main>
   <ModalMessage :message="message" v-show="message" @close-modal="closeModal"/>
 </template>
 
 <script>
 import ModalMessage from "./ModalMessage.vue";
+import Posts from "./Posts.vue";
 import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "TheContent",
-  components: { ModalMessage },
+  components: { ModalMessage, Posts },
   data() {
     return {
       selectedCount: '',
@@ -102,7 +104,6 @@ $submit-button-color: #61a91a;
 .main-content {
   position: relative;
   flex-grow: 1;
-  height: 2000px;
 
   padding-top: 45px;
 

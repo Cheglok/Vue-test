@@ -9,11 +9,14 @@ const posts = {
         addPost(state, post) {
             state.posts.unshift(post);
         },
+        removePost(state, id) {
+            state.posts = state.posts.filter(post => post.id !== id)
+        }
     },
     actions: {
-        async fetchPosts(store) {
+        async fetchPosts(store, count = 3) {
             try {
-                const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=3");
+                const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=" + count);
                 const posts = await res.json();
                 console.log("posts", posts)
                 store.commit("setPosts", posts)
@@ -25,6 +28,9 @@ const posts = {
         addPost(store, post) {
             store.commit("addPost", post);
         },
+        removePost(store, id) {
+            store.commit("removePost", id)
+        }
     },
     getters: {
         getPosts(state) {
