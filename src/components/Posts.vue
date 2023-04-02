@@ -6,19 +6,22 @@
       <button type="submit">Опубликовать</button>
     </form>
     Total posts count : {{ postsCount }} <input type="text" v-model="count">
-    <div class="post" v-for="post in allPosts">
-      <h5 class="post__title">{{ post.title }}</h5>
-      <p class="post__body">{{ post.body }}</p>
-      <button @click="removePost(post.id)">Удалить</button>
-    </div>
+    <Post v-for="post in allPosts"
+          :postTitle="post.title"
+          :body="post.body"
+          :id="post.id"
+          @remove-post="removePost"
+    />
   </div>
 </template>
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import Post from "./Post.vue";
 
 export default {
   name: "Posts",
+  components: { Post },
   data() {
     return {
       count: 3,
