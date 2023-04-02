@@ -1,6 +1,6 @@
 <template>
   <div class="post">
-    <h5 class="post__title">{{ title }}</h5>
+    <h5 class="post__title">{{ postTitle }}</h5>
     <p class="post__body">{{ body }}</p>
     <button @click="$emit('removePost', id)">Удалить</button>
   </div>
@@ -24,7 +24,7 @@ export default {
       required: true,
     },
   },
-  emits: ["removePost"]
+  emits: ["removePost"],
 }
 </script>
 

@@ -1,15 +1,12 @@
 <template>
   <main class="main-content">
     <div class="container main-content__container">
-      <form class="add-form" @submit.prevent="addProduct">
-        <label class="add-form__label" for="select-id">Выберите продукцию</label>
-        <select class="add-form__select" name="" id="select-id" v-model="selectedProduct">
-          <option v-for="product in products" :value="product" :key="product.id">{{ product.title }}</option>
-        </select>
-        <label class="add-form__label" for="amount-id">Введите количество</label>
-        <input class="add-form__input" type="number" name="" id="amount-id" v-model="selectedCount" min="1" max="100">
-        <button class="add-form__submit" type="submit" :disabled="!selectedCount">Добавить</button>
-      </form>
+      <SelectProductForm
+          @addProduct="addProduct"
+      />
+      <Counter
+        :showCount="showCount"
+      />
       <div class="right-column">
         <table class="order-table">
           <thead>
@@ -39,16 +36,17 @@
 <script>
 import ModalMessage from "./ModalMessage.vue";
 import Posts from "./Posts.vue";
+import SelectProductForm from "./SelectProductForm.vue";
 import {mapActions, mapGetters} from "vuex";
+import Counter from "./Counter.vue";
 
 export default {
   name: "TheContent",
-  components: { ModalMessage, Posts },
+  components: {Counter, SelectProductForm, ModalMessage, Posts},
   data() {
     return {
-      selectedCount: '',
-      selectedProduct: {},
       message: '',
+      showCount: 0,
     }
   },
   methods: {
@@ -58,13 +56,12 @@ export default {
       "sendSelectedProducts",
       "clearSelectedProducts"
     ]),
-    addProduct() {
+    addProduct(payload) {
       this.$store.dispatch("addSelectedProducts", {
-        selectedProduct: this.selectedProduct,
-        count: this.selectedCount,
+        selectedProduct: payload.selectedProduct,
+        count: payload.selectedCount,
       })
-      this.selectedProduct = this.products[0];
-      this.selectedCount = '';
+      this.showCount += payload.selectedCount;
     },
     async sendSelectedProducts() {
       const result = await this.$store.dispatch("sendSelectedProducts");
@@ -89,12 +86,11 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch("fetchProducts");
-    this.selectedProduct = this.products[0];
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $main-background-color: #e5e5e5;
 $title-text-color: #0170ae;
 $decorative-color: #2fa6ea;

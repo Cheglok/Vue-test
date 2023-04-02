@@ -6,7 +6,9 @@
       <button type="submit">Опубликовать</button>
     </form>
     Total posts count : {{ postsCount }} <input type="text" v-model="count">
-    <Post v-for="post in allPosts"
+
+    <Post v-if="postsCount"
+        v-for="post in allPosts"
           :postTitle="post.title"
           :body="post.body"
           :id="post.id"
@@ -47,9 +49,9 @@ export default {
     ...mapGetters(
       {allPosts: "getPosts"},
     ),
-    postsCount() {
-      return this.allPosts.length;
-    }
+    ...mapGetters(
+        {postsCount: "getPostsCount"},
+    )
   },
   watch: {
     count(newVal) {

@@ -36,9 +36,12 @@ const posts = {
         getPosts(state) {
             return state.posts;
         },
-        getPost(state, id) {
-            return state.posts.find(post => post.id === id);
-        }
+        getPostsCount(state) {
+            return state.posts.length;
+        },
+        // getPost(state, id) {
+        //     return state.posts.find(post => post.id === id);
+        // }
     },
 };
 
