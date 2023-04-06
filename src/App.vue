@@ -1,6 +1,8 @@
 <template>
   <div class="root-container">
-    safasf
+    <Alert secondText="This is our success message">
+      <b class="red">Here is</b> <i>slot message</i>
+    </Alert>
     <TheHeader/>
     <TheContent/>
     <TheFooter/>
@@ -12,13 +14,16 @@ import TheContent from "./components/TheContent.vue";
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 import Posts from "./components/Posts.vue";
+import Alert from "./components/Alert.vue";
+
 
 export default {
   components: {
     Posts,
     TheContent,
     TheHeader,
-    TheFooter
+    TheFooter,
+    Alert,
   }
 }
 </script>
@@ -29,4 +34,7 @@ export default {
   flex-direction: column;
   min-height: 100vh;
 }
+/*b {*/
+/*  color: red;*/
+/*}*/
 </style>
