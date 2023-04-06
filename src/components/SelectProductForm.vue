@@ -12,6 +12,7 @@
 
 <script>
 import {mapGetters} from "vuex";
+// import {eventBus} from "../main";
 
 export default {
   name: "SelectProductForm",
@@ -29,6 +30,7 @@ export default {
   },
   methods: {
     addProduct() {
+      // eventBus.$emit("showInCounter", {selectedProduct: this.selectedProduct, selectedCount: this.selectedCount})
       this.$emit("addProduct", {selectedProduct: this.selectedProduct, selectedCount: this.selectedCount});
       this.selectedProduct = this.products[0];
       this.selectedCount = '';

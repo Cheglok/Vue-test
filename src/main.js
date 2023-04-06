@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+// import Vue from 'vue';
 import store from './store';
 import App from './App.vue';
 
@@ -12,3 +13,5 @@ import './assets/style.scss';
 
 
 createApp(App).use(store).mount('#app');
+
+// export const eventBus = new Vue();
