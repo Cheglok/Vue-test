@@ -1,7 +1,7 @@
 <template>
   <p>Выбрано: {{ showCount }}</p>
-<!--  <p>{{ selectedCount }}</p>-->
-<!--  <p>{{ selectedProduct }}</p>-->
+  <input type="text" ref="name">
+  <button @click='focus'>Focus input</button>
 </template>
 
 <script>
@@ -21,14 +21,11 @@ export default {
       selectedProduct: 'не выбран'
     }
   },
-  // created() {
-  //   eventBus.$on("showInCounter", payload => {
-  //     console.log(payload.selectedCount, payload.selectedProduct);
-  //   })
-  // },
-  // beforeUnmount() {
-  //   eventBus.$off("showInCounter");
-  // }
+  methods: {
+    focus() {
+      this.$refs.name.focus();
+    },
+  },
 }
 </script>
 
