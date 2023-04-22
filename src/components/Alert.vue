@@ -1,7 +1,9 @@
 <template>
   <div class='alert success'>
-    <slot/>
     {{secondText}}
+    <slot name="description"/>
+    <slot name="title"/>
+    <slot/>
   </div>
 </template>
 
@@ -27,10 +29,13 @@ export default {
   border-color: #d0e9c6;
   /*color: #3c763d;*/
 }
-.red {
-  color: red;
+b {
+  color: blue;
 }
-i {
-  color: red;
-}
+/*.success .red {*/
+/*  color: red;*/
+/*}*/
+/*i {*/
+/*  color: red;*/
+/*}*/
 </style>

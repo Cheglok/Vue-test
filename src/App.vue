@@ -1,7 +1,15 @@
 <template>
   <div class="root-container">
     <Alert secondText="This is our success message">
-      <b class="red">Here is</b> <i>slot message</i>
+      <template v-slot:title>
+        <b class="red">Here is</b> <i>title message</i>
+        <p class="text-p">whatewer</p>
+      </template>
+      <template v-slot:description>
+        <b class="red">Here is</b> <i>description message</i>
+        <p class="text-p">whatewer</p>
+      </template>
+      <h2>whatewer else</h2>
     </Alert>
     <TheHeader/>
     <TheContent/>
@@ -34,7 +42,4 @@ export default {
   flex-direction: column;
   min-height: 100vh;
 }
-/*b {*/
-/*  color: red;*/
-/*}*/
 </style>
