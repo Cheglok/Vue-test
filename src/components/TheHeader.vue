@@ -1,7 +1,16 @@
 <template>
   <header class="main-header">
     <div class="container">
-      <h1 class="main-header__heading">sf</h1>
+      <nav>
+        <ul class="nav-links">
+          <li class="nav-link">
+            <router-link to="/">Main Page</router-link>
+          </li>
+          <li class="nav-link">
+            <router-link to="/table">Table Page</router-link>
+          </li>
+        </ul>
+      </nav>
     </div>
   </header>
 </template>
