@@ -1,6 +1,6 @@
 <template>
   <main class="main-content">
-    <div class="container main-content__container">
+    <div class="container">
       <router-view></router-view>
     </div>
   </main>
@@ -77,21 +77,12 @@ $submit-button-color: #61a91a;
   background: $main-background-color;
 }
 
-.main-content__container {
-  display: flex;
-}
+
 
 @media (max-width: 900px) {
   .main-content {
     padding-top: 24px;
     padding-bottom: 46px;
-  }
-
-  .main-content__container {
-    flex-direction: column;
-
-    padding-right: 26px;
-    max-width: 500px;
   }
 }
 </style>

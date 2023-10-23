@@ -9,6 +9,9 @@
           <li class="nav-link">
             <router-link to="/table">Table Page</router-link>
           </li>
+          <li class="nav-link">
+            <router-link to="/grid">Grid Page</router-link>
+          </li>
         </ul>
       </nav>
     </div>

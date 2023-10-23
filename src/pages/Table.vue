@@ -1,36 +1,38 @@
 <template>
-  <SelectProductForm
-      @addProduct="addProduct"
-  />
-  <div class="right-column">
-    <table class="order-table">
-      <thead>
-      <tr>
-        <th class="order-table__th">Название товара</th>
-        <th class="order-table__th">Количество</th>
-        <th class="order-table__th">Стоимость</th>
-      </tr>
-      </thead>
-      <tbody v-if="selectedProducts.length">
-      <tr v-for="product in selectedProducts">
-        <td class="order-table__td">{{ product.title }}</td>
-        <td class="order-table__td">{{ product.count }} шт.</td>
-        <td class="order-table__td">{{ (product.count * product.price).toFixed(2) }}</td>
-      </tr>
-      </tbody>
-    </table>
-    <p class="total-price">Итого: {{ totalPrice }}</p>
-    <button class="save-button" @click="sendSelectedProducts" :disabled="!selectedProducts.length">Сохранить</button>
+  <div class="main-content__container">
+    <SelectProductForm
+        @addProduct="addProduct"
+    />
+    <div class="right-column">
+      <table class="order-table">
+        <thead>
+        <tr>
+          <th class="order-table__th">Название товара</th>
+          <th class="order-table__th">Количество</th>
+          <th class="order-table__th">Стоимость</th>
+        </tr>
+        </thead>
+        <tbody v-if="selectedProducts.length">
+        <tr v-for="product in selectedProducts">
+          <td class="order-table__td">{{ product.title }}</td>
+          <td class="order-table__td">{{ product.count }} шт.</td>
+          <td class="order-table__td">{{ (product.count * product.price).toFixed(2) }}</td>
+        </tr>
+        </tbody>
+      </table>
+      <p class="total-price">Итого: {{ totalPrice }}</p>
+      <button class="save-button" @click="sendSelectedProducts" :disabled="!selectedProducts.length">Сохранить</button>
+    </div>
   </div>
 </template>
 
 <script>
-import SelectProductForm from "../components/SelectProductForm";
-import { mapActions, mapGetters } from "vuex";
+import SelectProductForm from "../components/SelectProductForm.vue";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: "TheContent",
-  components: { SelectProductForm },
+  components: {SelectProductForm},
   data() {
     return {
       message: '',
@@ -84,6 +86,19 @@ $title-text-color: #0170ae;
 $decorative-color: #2fa6ea;
 $input-background-color: #eef8ff;
 $submit-button-color: #61a91a;
+
+.main-content__container {
+  display: flex;
+}
+
+@media (max-width: 900px) {
+  .main-content__container {
+    flex-direction: column;
+
+    padding-right: 26px;
+    max-width: 500px;
+  }
+}
 
 .add-form {
   display: flex;
